@@ -1,6 +1,34 @@
 
 // See https://github.com/jenkinsci/workflow-plugin/tree/master/cps-global-lib#defining-global-functions
 
+/* sample with all the things turned on: 
+<code>
+simpleBuild {
+    
+    machine = "hi-speed"
+    docker = "java:1.9"
+    
+    env = [
+        FOO : 42,
+        BAR : "YASS"
+    ]
+    
+    git_repo = "https://github.com/cloudbeers/PR-demo"
+
+    before_script = "echo before"
+    script = 'echo after $FOO'
+    after_script = 'echo done now'
+    
+    notifications = [
+        email : "mneale@cloudbees.com"    
+    ]    
+    
+}
+</code>
+
+*/
+
+
 // The call(body) method in any file in workflowLibs.git/vars is exposed as a
 // method with the same name as the file.
 def call(body) {
@@ -9,15 +37,14 @@ def call(body) {
     body.delegate = config
     body()
     
-    
-    
-    /** conditionally flip to docker */
-      //TBD
-      
-      
     /** Run the build scripts */    
+    
     try {
-        runViaLabel(config)
+        if (config.docker_image != null) {
+            runViaDocker(config)
+        } else {
+            runViaLabel(config)
+        }        
     } catch (Exception rethrow) {        
         failureDetail = failureDetail(rethrow)
         sendMail(config, "FAILURE: Pipeline '${env.JOB_NAME}' (${env.BUILD_NUMBER}) failed!", 
@@ -54,11 +81,15 @@ def sendMail(config, mailSubject, message) {
 
 /** Execute the scripts on the appropriate label node */
 def runViaLabel(config) {
-  if (config.machine != null) {
     node(config.machine) {runScripts(config)}                    
-  } else {
-    node {runScripts(config)}            
-  }  
+}
+
+def runViaDocker(config) {
+    node(config.machine) {
+      docker.image(config.docker_image).inside {
+          runScripts(config)
+      }
+    }
 }
 
 
