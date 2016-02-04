@@ -2,7 +2,7 @@
 
 ![Great](great.jpg)
 
-This repo aims to build out a DSL for Jenkinfile (pipeline as code) to make the easy things easy (and the hard things doable, as they are already).
+This repo aims (work in progress) to build out a DSL for Jenkinfile (pipeline as code) to make the easy things easy, without taking away any of the power of Jenkins Pipeline for when you really need it. 
 
 
 # Example
