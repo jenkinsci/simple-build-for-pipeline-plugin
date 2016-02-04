@@ -34,4 +34,13 @@ simpleBuild {
 
 It will do the right thing, and send emails when things break. 
 
-Optional things: You can specify a machine label (where build runs) and (soon) a docker image to use as an alternative environment. 
+Optional things: You can specify a machine label, and/or a docker image to run builds under: 
+
+```
+machine = "hi-speed"
+docker_image = "java:1.9"
+```
+
+See [simpleBuild.groovy](simpleBuild.groovy) for the details.
+
+Work in progress: especially around whitelist operation in SCM. 
