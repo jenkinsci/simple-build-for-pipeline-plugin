@@ -1,6 +1,5 @@
 simpleBuild {
  
-    
     env = [
         FOO : 42,
         BAR : "YASS"
