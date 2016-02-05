@@ -67,8 +67,8 @@ def sendMail(config, mailSubject, message) {
   emailList = []
   if (config.notifications != null) {
     for ( e in config.notifications ) {
-      if (e.key == "email") {
-        emailList.add(e.value);                    
+      if (e.getKey() == "email") {
+        emailList.add(e.getValue());                    
       }        
     }   
   }
@@ -97,7 +97,7 @@ def runViaDocker(config) {
 def runScripts(config) {  
   envList = []    
   for ( e in config.env ) {
-    envList.add("${e.key}=${e.value}")
+    envList.add("${e.getKey()}=${e.getValue()}")
   }   
   withEnv(envList) {
     
