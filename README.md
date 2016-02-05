@@ -46,5 +46,5 @@ See [simpleBuild.groovy](simpleBuild.groovy) for the details.
 Work in progress: especially around whitelist operation in SCM. 
 
 Needs whitelisting: 
-field java.util.HashMap$Node key
-field java.util.HashMap$Node value
+method java.util.Map$Entry getKey
+method java.util.Map$Entry getValue
