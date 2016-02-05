@@ -44,3 +44,7 @@ docker_image = "java:1.9"
 See [simpleBuild.groovy](simpleBuild.groovy) for the details.
 
 Work in progress: especially around whitelist operation in SCM. 
+
+Needs whitelisting: 
+field java.util.HashMap$Node key
+field java.util.HashMap$Node value
