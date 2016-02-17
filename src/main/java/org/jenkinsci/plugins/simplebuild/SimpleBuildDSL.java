@@ -28,8 +28,10 @@ import hudson.Extension;
 import org.jenkinsci.plugins.scriptsecurity.sandbox.whitelists.ProxyWhitelist;
 import org.jenkinsci.plugins.scriptsecurity.sandbox.whitelists.StaticWhitelist;
 import org.jenkinsci.plugins.workflow.cps.CpsScript;
+import org.jenkinsci.plugins.workflow.cps.CpsThread;
 import org.jenkinsci.plugins.workflow.cps.GlobalVariable;
 
+import java.io.File;
 import java.io.IOException;
 
 @Extension
@@ -42,23 +44,27 @@ public class SimpleBuildDSL extends GlobalVariable {
     @Override
     public Object getValue(CpsScript script) throws Exception {
         Binding binding = script.getBinding();
-        Object travisPipelineConverter;
+        Object pipelineDSL;
 
         // If we already have a travisPipelineConverter defined, reuse it. Otherwise, load it from the DSL groovy and
         // add it to the binding.
         if (binding.hasVariable(getName())) {
-            travisPipelineConverter = binding.getVariable(getName());
+            pipelineDSL = binding.getVariable(getName());
         } else {
-            travisPipelineConverter = script.getClass()
-                    .getClassLoader()
-                    .loadClass("org.jenkinsci.plugins.simplebuild.SimpleBuild")
-                    .getConstructor(CpsScript.class)
-                    .newInstance(script);
+            CpsThread c = CpsThread.current();
+            if (c == null)
+                throw new IllegalStateException("Expected to be called from CpsThread");
 
-            binding.setVariable(getName(), travisPipelineConverter);
+            File converterGroovy = new File(getClass().getClassLoader().getResource("SimpleBuild.groovy").getFile());
+            pipelineDSL = c.getExecution()
+                    .getShell()
+                    .getClassLoader()
+                    .parseClass(converterGroovy)
+                    .newInstance();
+            binding.setVariable(getName(), pipelineDSL);
         }
 
-        return travisPipelineConverter;
+        return pipelineDSL;
     }
 
     @Extension
@@ -70,13 +76,9 @@ public class SimpleBuildDSL extends GlobalVariable {
          */
         public MiscWhitelist() throws IOException {
             super(new StaticWhitelist(
-                    "new org.yaml.snakeyaml.Yaml",
-                    "method org.yaml.snakeyaml.Yaml load java.lang.String",
-                    "method java.util.Map containsKey java.lang.Object",
-                    "method java.lang.Class isInstance java.lang.Object",
-                    "staticMethod org.codehaus.groovy.runtime.ScriptBytecodeAdapter castToType java.lang.Object java.lang.Class",
-                    "staticMethod org.codehaus.groovy.runtime.DefaultGroovyMethods toSet java.util.Collection"
-            ));
+                    "method java.util.Map$Entry getKey",
+                    "method java.util.Map$Entry getValue"
+                 ));
         }
     }
 }
