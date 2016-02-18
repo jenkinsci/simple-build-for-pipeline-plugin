@@ -21,31 +21,52 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.jenkinsci.plugins.simplebuild;
+package org.jenkinsci.plugins.pipelinedsl;
 
+import groovy.lang.Binding;
 import hudson.Extension;
-import org.jenkinsci.plugins.pipelinedsl.PipelineDSLGlobal;
 import org.jenkinsci.plugins.scriptsecurity.sandbox.whitelists.ProxyWhitelist;
 import org.jenkinsci.plugins.scriptsecurity.sandbox.whitelists.StaticWhitelist;
+import org.jenkinsci.plugins.workflow.cps.CpsScript;
+import org.jenkinsci.plugins.workflow.cps.CpsThread;
+import org.jenkinsci.plugins.workflow.cps.GlobalVariable;
 
+import java.io.File;
 import java.io.IOException;
 
-@Extension
-public class SimpleBuildDSL extends PipelineDSLGlobal {
+public abstract class PipelineDSLGlobal extends GlobalVariable {
+
+    public abstract String getFunctionName();
 
     @Override
-    public String getFunctionName() {
-        return "simpleBuild";
+    public String getName() {
+        return getFunctionName();
     }
 
-    @Extension
-    public static class MiscWhitelist extends ProxyWhitelist {
-        public MiscWhitelist() throws IOException {
-            super(new StaticWhitelist(
-                    "method java.util.Map$Entry getKey",
-                    "method java.util.Map$Entry getValue"
-            ));
+
+
+    @Override
+    public Object getValue(CpsScript script) throws Exception {
+        Binding binding = script.getBinding();
+        Object pipelineDSL;
+
+        if (binding.hasVariable(getName())) {
+            pipelineDSL = binding.getVariable(getName());
+        } else {
+            CpsThread c = CpsThread.current();
+            if (c == null)
+                throw new IllegalStateException("Expected to be called from CpsThread");
+
+            File converterGroovy = new File(getClass().getClassLoader().getResource(getFunctionName() + ".groovy").getFile());
+            pipelineDSL = c.getExecution()
+                    .getShell()
+                    .getClassLoader()
+                    .parseClass(converterGroovy)
+                    .newInstance();
+            binding.setVariable(getName(), pipelineDSL);
         }
+
+        return pipelineDSL;
     }
 
 }
