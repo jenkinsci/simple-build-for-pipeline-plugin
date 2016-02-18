@@ -2,7 +2,7 @@
 
 ![Great](great.jpg)
 
-This repo aims (work in progress) to build out a DSL for Jenkinfile (pipeline as code) to make the easy things easy, without taking away any of the power of Jenkins Pipeline for when you really need it. 
+This plugin aims to build out a DSL for Jenkinfile (pipeline as code) to make the easy things easy, without taking away any of the power of Jenkins Pipeline for when you really need it.
 
 
 # Example
@@ -41,10 +41,17 @@ machine = "hi-speed"
 docker_image = "java:1.9"
 ```
 
-See [simpleBuild.groovy](simpleBuild.groovy) for the details.
+See src/main/resources for the actual DSL used for the details.
 
-Work in progress: especially around whitelist operation in SCM. 
+To play with this:
 
-Needs whitelisting: 
-method java.util.Map$Entry getKey
-method java.util.Map$Entry getValue
+`mvn hpi:run`
+
+ or build and install it to your Jenkins (it is just a plugin). You can also commit the simpleBuild.groovy to the Jenkins workflowLibs repo (if you know what I mean, if not... then ignore me!).
+
+ # Secondary aim
+
+ The secondary aim of this plugin is to show how plain pipeline-script can be used easily to make a plugin to allow you to share the DSL.
+ The only code you need to care about is the `simpleBuild.groovy` and `SimpleBuildDSL` - that is all.
+
+
