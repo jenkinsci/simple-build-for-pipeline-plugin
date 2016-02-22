@@ -49,32 +49,28 @@ public abstract class PipelineDSLGlobal extends GlobalVariable {
     @Override
     public Object getValue(CpsScript script) throws Exception {
         Binding binding = script.getBinding();
-        Object pipelineDSL;
 
-        if (binding.hasVariable(getName())) {
-            pipelineDSL = binding.getVariable(getName());
-        } else {
-            CpsThread c = CpsThread.current();
-            if (c == null)
-                throw new IllegalStateException("Expected to be called from CpsThread");
+        CpsThread c = CpsThread.current();
+        if (c == null)
+            throw new IllegalStateException("Expected to be called from CpsThread");
 
-            ClassLoader cl = getClass().getClassLoader();
+        ClassLoader cl = getClass().getClassLoader();
 
-            String scriptPath = "dsl/" + getFunctionName() + ".groovy";
-            Reader r = new InputStreamReader(cl.getResourceAsStream(scriptPath));
+        String scriptPath = "dsl/" + getFunctionName() + ".groovy";
+        Reader r = new InputStreamReader(cl.getResourceAsStream(scriptPath), "UTF-8");
 
-            GroovyCodeSource gsc = new GroovyCodeSource(r, getFunctionName() + ".groovy", cl.getResource(scriptPath).getFile());
-            gsc.setCachable(true);
+        GroovyCodeSource gsc = new GroovyCodeSource(r, getFunctionName() + ".groovy", cl.getResource(scriptPath).getFile());
+        gsc.setCachable(true);
 
 
-            pipelineDSL = c.getExecution()
-                    .getShell()
-                    .getClassLoader()
-                    .parseClass(gsc)
-                    .newInstance();
-            binding.setVariable(getName(), pipelineDSL);
-            r.close();
-        }
+        Object pipelineDSL = c.getExecution()
+                .getShell()
+                .getClassLoader()
+                .parseClass(gsc)
+                .newInstance();
+        binding.setVariable(getName(), pipelineDSL);
+        r.close();
+
 
         return pipelineDSL;
     }
