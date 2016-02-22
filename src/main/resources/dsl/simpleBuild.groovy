@@ -1,3 +1,4 @@
+package dsl
 
 // See https://github.com/jenkinsci/workflow-plugin/tree/master/cps-global-lib#defining-global-functions
 
