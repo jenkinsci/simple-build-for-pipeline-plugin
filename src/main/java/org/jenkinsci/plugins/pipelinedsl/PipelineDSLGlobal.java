@@ -24,6 +24,7 @@
 package org.jenkinsci.plugins.pipelinedsl;
 
 import groovy.lang.Binding;
+import groovy.lang.GroovyCodeSource;
 import hudson.Extension;
 import org.jenkinsci.plugins.scriptsecurity.sandbox.whitelists.ProxyWhitelist;
 import org.jenkinsci.plugins.scriptsecurity.sandbox.whitelists.StaticWhitelist;
@@ -31,8 +32,8 @@ import org.jenkinsci.plugins.workflow.cps.CpsScript;
 import org.jenkinsci.plugins.workflow.cps.CpsThread;
 import org.jenkinsci.plugins.workflow.cps.GlobalVariable;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.net.URL;
 
 public abstract class PipelineDSLGlobal extends GlobalVariable {
 
@@ -48,23 +49,28 @@ public abstract class PipelineDSLGlobal extends GlobalVariable {
     @Override
     public Object getValue(CpsScript script) throws Exception {
         Binding binding = script.getBinding();
-        Object pipelineDSL;
 
-        if (binding.hasVariable(getName())) {
-            pipelineDSL = binding.getVariable(getName());
-        } else {
-            CpsThread c = CpsThread.current();
-            if (c == null)
-                throw new IllegalStateException("Expected to be called from CpsThread");
+        CpsThread c = CpsThread.current();
+        if (c == null)
+            throw new IllegalStateException("Expected to be called from CpsThread");
 
-            File converterGroovy = new File(getClass().getClassLoader().getResource(getFunctionName() + ".groovy").getFile());
-            pipelineDSL = c.getExecution()
-                    .getShell()
-                    .getClassLoader()
-                    .parseClass(converterGroovy)
-                    .newInstance();
-            binding.setVariable(getName(), pipelineDSL);
-        }
+        ClassLoader cl = getClass().getClassLoader();
+
+        String scriptPath = "dsl/" + getFunctionName() + ".groovy";
+        Reader r = new InputStreamReader(cl.getResourceAsStream(scriptPath), "UTF-8");
+
+        GroovyCodeSource gsc = new GroovyCodeSource(r, getFunctionName() + ".groovy", cl.getResource(scriptPath).getFile());
+        gsc.setCachable(true);
+
+
+        Object pipelineDSL = c.getExecution()
+                .getShell()
+                .getClassLoader()
+                .parseClass(gsc)
+                .newInstance();
+        binding.setVariable(getName(), pipelineDSL);
+        r.close();
+
 
         return pipelineDSL;
     }

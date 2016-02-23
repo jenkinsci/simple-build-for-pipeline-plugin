@@ -5,6 +5,8 @@
 This plugin aims to build out a DSL for Jenkinfile (pipeline as code) to make the easy things easy, without taking away any of the power of Jenkins Pipeline for when you really need it.
 
 
+[![Build Status](https://jenkins.ci.cloudbees.com/job/plugins/job/simple-build-for-pipeline-plugin/badge/icon)](https://jenkins.ci.cloudbees.com/job/plugins/job/simple-build-for-pipeline-plugin/)
+
 # Example
 
 This example runs a very simple build with some environment variables. This would work with pipeline-as-code and branch source.
@@ -52,6 +54,4 @@ To play with this:
  # Secondary aim
 
  The secondary aim of this plugin is to show how plain pipeline-script can be used easily to make a plugin to allow you to share the DSL.
- The only code you need to care about is the `simpleBuild.groovy` and `SimpleBuildDSL` - that is all.
-
-
+ The only code you need to care about is the `src/main/resources/dslsimpleBuild.groovy` and `SimpleBuildDSL.java` - that is all.
