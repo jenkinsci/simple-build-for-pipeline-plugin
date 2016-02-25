@@ -70,5 +70,7 @@ To play with this:
 - [ ] allow block for simple user input
 - [ ] More notification types (slack, for example)
 - [ ] Change email to only be on failure or return to health (convention, Yo). 
+- [ ] Retries of scripts if specified
+- [ ] May need to configure docker to work under a node() block... 
 
 
