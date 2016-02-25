@@ -55,3 +55,20 @@ To play with this:
 
  The secondary aim of this plugin is to show how plain pipeline-script can be used easily to make a plugin to allow you to share the DSL.
  The only code you need to care about is the `src/main/resources/dslsimpleBuild.groovy` and `SimpleBuildDSL.java` - that is all.
+ 
+ # TODO
+- [ ] More scenario tests of the permutations
+- [ ] Use named stages (?) if it makes sense. 
+- [ ] Support all the same _script semantics as https://github.com/jenkinsci/simple-travis-runner-plugin/blob/pure-script-approach/README.md (eg after_failure, after_success etc to happen on the appropriate events and around error handling). 
+- [ ] Allow execution of all `script` entries even if one fails (?)
+- [ ] Time out individual `script` entries.
+- [ ] Add in simple matrix (a la travis)
+- [ ] Add in branch inclusions/exclusions (what branches to run on or not)
+- [ ] Allow parallel scripts (across nodes?? or a whole block of parallel?)
+- [ ] Implement auto-generation of `script` and friends for (some) languages? Debatable whether to do this.
+- [ ] Decide whether to keep emulating Travis's behavior of ignore `after_*` steps' failures when setting build status.
+- [ ] allow block for simple user input
+- [ ] More notification types (slack, for example)
+- [ ] Change email to only be on failure or return to health (convention, Yo). 
+
+
