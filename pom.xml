@@ -14,7 +14,7 @@
     <version>0.2-SNAPSHOT</version>
     <packaging>hpi</packaging>
 
-    <name>Provides a simple DSL for using pipeline for common tasks</name>
+    <name>Simple Build DSL for Pipeline</name>
     <description>This plugin provides a build DSL that should be familiar to people used to things like travisci. It is declarative
         and takes care of common tasks. It works well with pipeline-as-code and docker.</description>
 
