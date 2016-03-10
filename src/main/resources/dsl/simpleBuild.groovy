@@ -38,6 +38,9 @@ def call(body) {
     body.delegate = config
     body()
 
+    if (this.binding.hasVariable("VAR")) {
+        echo("VAR exists")
+    }
     /** Run the build scripts */
 
     try {
