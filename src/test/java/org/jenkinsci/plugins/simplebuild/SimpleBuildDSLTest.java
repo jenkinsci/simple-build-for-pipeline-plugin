@@ -26,7 +26,7 @@ public class SimpleBuildDSLTest {
 
 
 
-    @Test public void simpleTravisYml() throws Exception {
+    @Test public void smokeTests() throws Exception {
 
         sampleRepo.init();
         sampleRepo.write("Jenkinsfile", "simpleBuild {   \n git_repo = \"https://github.com/cloudbeers/PR-demo\" \n script='ls' }");
