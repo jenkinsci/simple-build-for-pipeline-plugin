@@ -3,7 +3,7 @@
 ![Great](great.jpg)
 
 This plugin aims to build out a DSL for Jenkinfile (pipeline as code) to make the easy things easy, without taking away any of the power of Jenkins Pipeline for when you really need it.
-
+added this nifty line as a test
 
 [![Build Status](https://jenkins.ci.cloudbees.com/job/plugins/job/simple-build-for-pipeline-plugin/badge/icon)](https://jenkins.ci.cloudbees.com/job/plugins/job/simple-build-for-pipeline-plugin/)
 
