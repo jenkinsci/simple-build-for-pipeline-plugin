@@ -9,3 +9,9 @@ work
 .gradle/
 build/
 gradlew.bat
+
+# VS Code
+.classpath
+.project
+.settings/
+.vscode/
