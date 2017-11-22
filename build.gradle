@@ -1,3 +1,8 @@
+/*
+ * build.gradle
+ * simple-build-for-pipeline-plugin
+ */
+
 apply plugin: 'java'
 apply plugin: 'maven'
 
@@ -8,44 +13,47 @@ description = """Simple Build DSL for Pipeline"""
 
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
+
 tasks.withType(JavaCompile) {
 	options.encoding = 'UTF-8'
 }
 
 configurations.all {
-it.exclude group: 'org.sonatype.sisu', module: 'sisu-guice'
-it.exclude group: 'log4j', module: 'log4j'
-it.exclude group: 'log4j', module: 'log4j'
-it.exclude group: 'commons-logging', module: 'commons-logging'
-it.exclude group: 'commons-logging', module: 'commons-logging'
+    it.exclude group: 'org.sonatype.sisu', module: 'sisu-guice'
+    it.exclude group: 'log4j', module: 'log4j'
+    it.exclude group: 'log4j', module: 'log4j'
+    it.exclude group: 'commons-logging', module: 'commons-logging'
+    it.exclude group: 'commons-logging', module: 'commons-logging'
 }
 
 repositories {
-        
      maven { url "https://repo.jenkins-ci.org/public/" }
      maven { url "http://repo.maven.apache.org/maven2" }
 }
+
 dependencies {
     compile group: 'org.jenkins-ci.plugins.workflow', name: 'workflow-cps', version:'1.13'
     compile group: 'org.jenkins-ci.plugins', name: 'script-security', version:'1.15'
     compile group: 'org.jenkins-ci.plugins.workflow', name: 'workflow-aggregator', version:'1.13'
     compile group: 'org.jenkins-ci.plugins', name: 'docker-workflow', version:'1.2'
     compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.7'
+
     testCompile(group: 'org.jenkins-ci.plugins', name: 'git', version:'2.4.2') {
-exclude(module: 'httpclient')
+        exclude(module: 'httpclient')
     }
     testCompile group: 'org.jenkins-ci.plugins.workflow', name: 'workflow-aggregator', version:'1.13', classifier:'tests'
     testCompile group: 'org.jenkins-ci.plugins.workflow', name: 'workflow-support', version:'1.13', classifier:'tests'
     testCompile group: 'org.jenkins-ci.main', name: 'jenkins-war', version:'1.609.3', classifier:'war-for-test'
     testCompile group: 'org.jenkins-ci.main', name: 'jenkins-war', version:'1.609.3'
     testCompile(group: 'org.jenkins-ci.main', name: 'jenkins-test-harness', version:'2.1') {
-exclude(module: 'junit-dep')
+        exclude(module: 'junit-dep')
     }
     testCompile group: 'org.jenkins-ci', name: 'test-annotations', version:'1.2'
     testCompile group: 'junit', name: 'junit', version:'4.12'
     testCompile group: 'org.slf4j', name: 'log4j-over-slf4j', version:'1.7.7'
     testCompile group: 'org.slf4j', name: 'jcl-over-slf4j', version:'1.7.7'
     testCompile group: 'org.slf4j', name: 'slf4j-jdk14', version:'1.7.7'
+    
     compileOnly group: 'com.google.code.findbugs', name: 'annotations', version:'3.0.0'
     compileOnly group: 'net.jcip', name: 'jcip-annotations', version:'1.0'
     compileOnly group: 'org.codehaus.mojo', name: 'animal-sniffer-annotations', version:'1.14'
