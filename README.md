@@ -1,7 +1,5 @@
 # Jenkinsfile - making the easy things easy
 
-![Great](great.jpg)
-
 This plugin aims to build out a DSL for Jenkinfile (pipeline as code) to make the easy things easy, without taking away any of the power of Jenkins Pipeline for when you really need it.
 
 
