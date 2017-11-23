@@ -32,31 +32,31 @@ repositories {
 }
 
 dependencies {
-    compile group: 'org.jenkins-ci.plugins.workflow', name: 'workflow-cps', version:'1.13'
-    compile group: 'org.jenkins-ci.plugins', name: 'script-security', version:'1.15'
-    compile group: 'org.jenkins-ci.plugins.workflow', name: 'workflow-aggregator', version:'1.13'
-    compile group: 'org.jenkins-ci.plugins', name: 'docker-workflow', version:'1.2'
-    compile group: 'org.slf4j', name: 'slf4j-api', version:'1.7.7'
+    compile 'org.jenkins-ci.plugins.workflow:workflow-cps:1.13'
+    compile 'org.jenkins-ci.plugins:script-security:1.15'
+    compile 'org.jenkins-ci.plugins.workflow:workflow-aggregator:1.13'
+    compile 'org.jenkins-ci.plugins:docker-workflow:1.2'
+    compile 'org.slf4j:slf4j-api:1.7.7'
 
-    testCompile(group: 'org.jenkins-ci.plugins', name: 'git', version:'2.4.2') {
+    testCompile('org.jenkins-ci.plugins:git:2.4.2') {
         exclude(module: 'httpclient')
     }
-    testCompile group: 'org.jenkins-ci.plugins.workflow', name: 'workflow-aggregator', version:'1.13', classifier:'tests'
-    testCompile group: 'org.jenkins-ci.plugins.workflow', name: 'workflow-support', version:'1.13', classifier:'tests'
-    testCompile group: 'org.jenkins-ci.main', name: 'jenkins-war', version:'1.609.3', classifier:'war-for-test'
-    testCompile group: 'org.jenkins-ci.main', name: 'jenkins-war', version:'1.609.3'
-    testCompile(group: 'org.jenkins-ci.main', name: 'jenkins-test-harness', version:'2.1') {
+    testCompile 'org.jenkins-ci.plugins.workflow:workflow-aggregator:1.13:tests'
+    testCompile 'org.jenkins-ci.plugins.workflow:workflow-support:1.13:tests'
+    testCompile 'org.jenkins-ci.main:jenkins-war:1.609.3:war-for-test'
+    testCompile 'org.jenkins-ci.main:jenkins-war:1.609.3'
+    testCompile('org.jenkins-ci.main:jenkins-test-harness:2.1') {
         exclude(module: 'junit-dep')
     }
-    testCompile group: 'org.jenkins-ci', name: 'test-annotations', version:'1.2'
-    testCompile group: 'junit', name: 'junit', version:'4.12'
-    testCompile group: 'org.slf4j', name: 'log4j-over-slf4j', version:'1.7.7'
-    testCompile group: 'org.slf4j', name: 'jcl-over-slf4j', version:'1.7.7'
-    testCompile group: 'org.slf4j', name: 'slf4j-jdk14', version:'1.7.7'
+    testCompile 'org.jenkins-ci:test-annotations:1.2'
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.slf4j:log4j-over-slf4j:1.7.7'
+    testCompile 'org.slf4j:jcl-over-slf4j:1.7.7'
+    testCompile 'org.slf4j:slf4j-jdk14:1.7.7'
     
-    compileOnly group: 'com.google.code.findbugs', name: 'annotations', version:'3.0.0'
-    compileOnly group: 'net.jcip', name: 'jcip-annotations', version:'1.0'
-    compileOnly group: 'org.codehaus.mojo', name: 'animal-sniffer-annotations', version:'1.14'
-    compileOnly group: 'javax.servlet', name: 'servlet-api', version:'2.4'
-    compileOnly group: 'org.jenkins-ci.main', name: 'jenkins-core', version:'1.609.3'
+    compileOnly 'com.google.code.findbugs:annotations:3.0.0'
+    compileOnly 'net.jcip:jcip-annotations:1.0'
+    compileOnly 'org.codehaus.mojo:animal-sniffer-annotations:1.14'
+    compileOnly 'javax.servlet:servlet-api:2.4'
+    compileOnly 'org.jenkins-ci.main:jenkins-core:1.609.3'
 }
