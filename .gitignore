@@ -1,3 +1,23 @@
+# macOS
+.DS_Store
+
+# Maven
 target
 work
 
+# Gradle
+.gradle/
+build/
+gradlew.bat
+bin/
+out/
+
+# IntelliJ IDEA
+*.iml
+.idea/
+
+# VS Code
+.classpath
+.project
+.settings/
+.vscode/

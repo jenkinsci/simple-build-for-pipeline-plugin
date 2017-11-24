@@ -1,0 +1,78 @@
+/*
+ * build.gradle
+ * simple-build-for-pipeline-plugin
+ */
+
+apply plugin: 'java'
+
+group = 'org.jenkins-ci.plugins'
+version = '0.3-SNAPSHOT'
+
+description = """Simple Build DSL for Pipeline"""
+
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+}
+
+configurations.all {
+    it.exclude group: 'org.sonatype.sisu', module: 'sisu-guice'
+    it.exclude group: 'log4j', module: 'log4j'
+    it.exclude group: 'log4j', module: 'log4j'
+    it.exclude group: 'commons-logging', module: 'commons-logging'
+    it.exclude group: 'commons-logging', module: 'commons-logging'
+}
+
+repositories {
+     maven { url "https://repo.jenkins-ci.org/public/" }
+     maven { url "http://repo.maven.apache.org/maven2" }
+}
+
+dependencies {
+    compile 'org.slf4j:slf4j-api:1.7.7'
+
+    // These Jenkins dependencies need to be tagged with the @jar extension otherwise gradle will grab the .hpi file
+    // https://repo.jenkins-ci.org/public/org/jenkins-ci/plugins/workflow/workflow-api/
+    compile 'org.jenkins-ci.plugins.workflow:workflow-api:1.13@jar'
+    // https://repo.jenkins-ci.org/public/org/jenkins-ci/plugins/workflow/workflow-cps/
+    compile 'org.jenkins-ci.plugins.workflow:workflow-cps:1.13@jar'
+    // https://repo.jenkins-ci.org/public/org/jenkins-ci/plugins/workflow/workflow-aggregator/
+    compile 'org.jenkins-ci.plugins.workflow:workflow-aggregator:1.13@jar'
+    // https://repo.jenkins-ci.org/public/org/jenkins-ci/plugins/workflow/workflow-job/
+    compile 'org.jenkins-ci.plugins.workflow:workflow-job:1.13@jar'
+    // https://repo.jenkins-ci.org/public/org/jenkins-ci/plugins/workflow/workflow-scm-step/
+    compile 'org.jenkins-ci.plugins.workflow:workflow-scm-step:1.13@jar'
+    // https://repo.jenkins-ci.org/public/org/jenkins-ci/plugins/workflow/workflow-step-api/
+    compile 'org.jenkins-ci.plugins.workflow:workflow-step-api:1.13@jar'
+    // https://repo.jenkins-ci.org/public/org/jenkins-ci/plugins/script-security/
+    compile 'org.jenkins-ci.plugins:script-security:1.15@jar'
+    // https://repo.jenkins-ci.org/public/org/jenkins-ci/plugins/docker-workflow/
+    compile 'org.jenkins-ci.plugins:docker-workflow:1.2@jar'
+
+    // https://repo.jenkins-ci.org/public/com/cloudbees/groovy-cps/
+    compile 'com.cloudbees:groovy-cps:1.20'
+
+    testCompile('org.jenkins-ci.plugins:git:2.4.2') {
+        exclude(module: 'httpclient')
+    }
+    testCompile 'org.jenkins-ci.plugins.workflow:workflow-aggregator:1.13:tests'
+    testCompile 'org.jenkins-ci.plugins.workflow:workflow-support:1.13:tests'
+    testCompile 'org.jenkins-ci.main:jenkins-war:1.609.3:war-for-test'
+    testCompile 'org.jenkins-ci.main:jenkins-war:1.609.3'
+    testCompile('org.jenkins-ci.main:jenkins-test-harness:2.1') {
+        exclude(module: 'junit-dep')
+    }
+    testCompile 'org.jenkins-ci:test-annotations:1.2'
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.slf4j:log4j-over-slf4j:1.7.7'
+    testCompile 'org.slf4j:jcl-over-slf4j:1.7.7'
+    testCompile 'org.slf4j:slf4j-jdk14:1.7.7'
+    
+    compileOnly 'com.google.code.findbugs:annotations:3.0.0'
+    compileOnly 'net.jcip:jcip-annotations:1.0'
+    compileOnly 'org.codehaus.mojo:animal-sniffer-annotations:1.14'
+    compileOnly 'javax.servlet:servlet-api:2.4'
+    compileOnly 'org.jenkins-ci.main:jenkins-core:1.609.3'
+}
