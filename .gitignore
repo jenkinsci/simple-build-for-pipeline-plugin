@@ -9,6 +9,7 @@ work
 .gradle/
 build/
 gradlew.bat
+bin/
 out/
 
 # IntelliJ IDEA
