@@ -86,7 +86,7 @@
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>git</artifactId>
-            <version>2.4.2</version>
+            <version>4.11.5</version>
         </dependency>
 
 
@@ -94,7 +94,7 @@
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>git</artifactId>
-            <version>2.4.2</version>
+            <version>4.11.5</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
